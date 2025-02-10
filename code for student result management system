@@ -1,0 +1,93 @@
+class Student:
+    def __init__(self, student_id, name, subject_marks):
+        self.student_id = student_id
+        self.name = name
+        self.subject_marks = subject_marks
+        self.total_marks = sum(subject_marks)
+        self.average = self.total_marks / len(subject_marks)
+        self.grade = self.calculate_grade()
+
+    def calculate_grade(self):
+        if self.average >= 90:
+            return 'A+'
+        elif self.average >= 80:
+            return 'A'
+        elif self.average >= 70:
+            return 'B'
+        elif self.average >= 60:
+            return 'C'
+        elif self.average >= 50:
+            return 'D'
+        else:
+            return 'F'
+
+    def display_result(self):
+        print(f"Student ID: {self.student_id}")
+        print(f"Name: {self.name}")
+        print(f"Marks: {self.subject_marks}")
+        print(f"Total Marks: {self.total_marks}")
+        print(f"Average: {self.average:.2f}")
+        print(f"Grade: {self.grade}")
+
+
+class ResultManagementSystem:
+    def __init__(self):
+        self.students = []
+
+    def add_student(self):
+        student_id = input("Enter Student ID: ")
+        name = input("Enter Student Name: ")
+        num_subjects = int(input("Enter number of subjects: "))
+        subject_marks = []
+        for i in range(num_subjects):
+            mark = float(input(f"Enter marks for subject {i + 1}: "))
+            subject_marks.append(mark)
+        student = Student(student_id, name, subject_marks)
+        self.students.append(student)
+        print(f"\nStudent {name} has been added successfully!\n")
+
+    def display_all_results(self):
+        if len(self.students) == 0:
+            print("No students in the system.")
+            return
+        print("\nDisplaying Results for All Students:\n")
+        for student in self.students:
+            student.display_result()
+            print("-" * 40)
+
+    def search_student(self):
+        student_id = input("Enter Student ID to search: ")
+        found = False
+        for student in self.students:
+            if student.student_id == student_id:
+                student.display_result()
+                found = True
+                break
+        if not found:
+            print("Student ID not found.")
+
+    def run(self):
+        while True:
+            print("\nStudent Result Management System")
+            print("1. Add Student Result")
+            print("2. Display All Results")
+            print("3. Search Student Result by ID")
+            print("4. Exit")
+            choice = input("Enter your choice: ")
+
+            if choice == '1':
+                self.add_student()
+            elif choice == '2':
+                self.display_all_results()
+            elif choice == '3':
+                self.search_student()
+            elif choice == '4':
+                print("Exiting the system. Goodbye!")
+                break
+            else:
+                print("Invalid choice, please try again.")
+
+# Create the Result Management System object and run the system
+if __name__ == "__main__":
+    rms = ResultManagementSystem()
+    rms.run()
